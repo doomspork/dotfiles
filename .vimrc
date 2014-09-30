@@ -31,6 +31,10 @@ let g:mapleader = ","
 
 " Fast saving
 nmap <leader>w :w!<cr>
+" Save and quit
+nmap <leader>x :x<cr>
+" Fast quit
+nmap <leader>q :q!<cr>
 
 " Turn backup off
 set nobackup
