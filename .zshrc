@@ -6,7 +6,7 @@ plugins=(bundler capistrano chruby git osx ruby)
 
 source $ZSH/oh-my-zsh.sh
 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/heroku/bin"
 
 export LANG=en_US.UTF-8
 
