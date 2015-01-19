@@ -102,6 +102,8 @@ NeoBundle 'tpope/vim-rails'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 NeoBundle 'cakebaker/scss-syntax.vim'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'pangloss/vim-javascript'
 
 " Required:
 call neobundle#end()
@@ -232,7 +234,7 @@ vnoremap <silent> * :call VisualSelection('f')<CR>
 vnoremap <silent> # :call VisualSelection('b')<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Movemnt
+" Movement
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Treat long lines as break lines (useful when moving around in them)
 map j gj
@@ -307,10 +309,12 @@ nnoremap <silent> <Leader>c :call DeleteTrailingWS()<CR>
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
 autocmd BufWrite *.java :call DeleteTrailingWS()
 autocmd BufWrite *.js :call DeleteTrailingWS()
+autocmd BufWrite *.json :call DeleteTrailingWS()
 autocmd BufWrite *.md :call DeleteTrailingWS()
 autocmd BufWrite *.php :call DeleteTrailingWS()
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.rb :call DeleteTrailingWS()
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -353,7 +357,6 @@ function! VisualSelection(direction) range
 	let @" = l:saved_reg
 endfunction
 
-
 " Returns true if paste mode is enabled
 function! HasPaste()
 	if &paste
@@ -383,12 +386,23 @@ function! <SID>BufcloseCloseIt()
    endif
 endfunction
 
+function! TabCompletion()
+  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<C-N>"
+  else
+    return "\<Tab>"
+  endif
+endfunction
+
+:inoremap <Tab> <C-R>=TabCompletion()<CR>
+:set dictionary="/usr/local/bin/dict"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autogroups
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup configgroup
     autocmd!
+    autocmd CursorMovedI * call TabCompletion()
     autocmd VimEnter * highlight clear SignColumn
     autocmd FileType java setlocal noexpandtab
     autocmd FileType java setlocal list
@@ -414,4 +428,17 @@ augroup configgroup
     autocmd BufEnter *.sh setlocal tabstop=2
     autocmd BufEnter *.sh setlocal shiftwidth=2
     autocmd BufEnter *.sh setlocal softtabstop=2
+    autocmd BufEnter *.json setlocal filetype=json
 augroup END
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Syntastic
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
