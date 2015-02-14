@@ -89,21 +89,22 @@ call neobundle#begin(expand('~/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Add or remove your Bundles here:
-NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'tpope/vim-rails'
-NeoBundle 'sjl/gundo.vim'
-NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-NeoBundle 'cakebaker/scss-syntax.vim'
-NeoBundle 'scrooloose/syntastic'
+NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'rking/ag.vim'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-rails'
+NeoBundle 'udalov/kotlin-vim'
+NeoBundle 'vim-ruby/vim-ruby'
 
 " Required:
 call neobundle#end()
@@ -404,31 +405,32 @@ augroup configgroup
     autocmd!
     autocmd CursorMovedI * call TabCompletion()
     autocmd VimEnter * highlight clear SignColumn
-    autocmd FileType java setlocal noexpandtab
-    autocmd FileType java setlocal list
-    autocmd FileType java setlocal listchars=tab:+\ ,eol:-
-    autocmd FileType java setlocal formatprg=par\ -w80\ -T4
-    autocmd FileType php setlocal expandtab
-    autocmd FileType php setlocal list
-    autocmd FileType php setlocal listchars=tab:+\ ,eol:-
-    autocmd FileType php setlocal formatprg=par\ -w80\ -T4
-    autocmd FileType coffee setlocal tabstop=2
-    autocmd FileType coffee setlocal shiftwidth=2
-    autocmd FileType coffee setlocal softtabstop=2
-    autocmd FileType ruby setlocal commentstring=#\ %s
-    autocmd FileType ruby setlocal tabstop=2
-    autocmd FileType ruby setlocal shiftwidth=2
-    autocmd FileType ruby setlocal softtabstop=2
-    autocmd FileType ruby setlocal commentstring=#\ %s
-    autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
-    autocmd FileType python setlocal commentstring=#\ %s
     autocmd BufEnter *.cls setlocal filetype=java
-    autocmd BufEnter *.zsh-theme setlocal filetype=zsh
-    autocmd BufEnter Makefile setlocal noexpandtab
-    autocmd BufEnter *.sh setlocal tabstop=2
+    autocmd BufEnter *.json setlocal filetype=json
+    autocmd BufEnter *.kt setlocal filetype=kotlin
     autocmd BufEnter *.sh setlocal shiftwidth=2
     autocmd BufEnter *.sh setlocal softtabstop=2
-    autocmd BufEnter *.json setlocal filetype=json
+    autocmd BufEnter *.sh setlocal tabstop=2
+    autocmd BufEnter *.zsh-theme setlocal filetype=zsh
+    autocmd BufEnter Makefile setlocal noexpandtab
+    autocmd FileType coffee setlocal shiftwidth=2
+    autocmd FileType coffee setlocal softtabstop=2
+    autocmd FileType coffee setlocal tabstop=2
+    autocmd FileType java setlocal formatprg=par\ -w80\ -T4
+    autocmd FileType java setlocal list
+    autocmd FileType java setlocal listchars=tab:+\ ,eol:-
+    autocmd FileType java setlocal noexpandtab
+    autocmd FileType php setlocal expandtab
+    autocmd FileType php setlocal formatprg=par\ -w80\ -T4
+    autocmd FileType php setlocal list
+    autocmd FileType php setlocal listchars=tab:+\ ,eol:-
+    autocmd FileType python setlocal commentstring=#\ %s
+    autocmd FileType ruby setlocal commentstring=#\ %s
+    autocmd FileType ruby setlocal commentstring=#\ %s
+    autocmd FileType ruby setlocal shiftwidth=2
+    autocmd FileType ruby setlocal softtabstop=2
+    autocmd FileType ruby setlocal tabstop=2
+    autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
