@@ -105,6 +105,10 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'udalov/kotlin-vim'
 NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'whatyouhide/vim-gotham'
+
+" By default NeoBundle installs a less python.vim so work around that
+NeoBundle 'http://www.vim.org/scripts/download_script.php?src_id=19619',  { 'type__filename' : 'python.vim', 'script_type' : 'syntax' }
 
 " Required:
 call neobundle#end()
@@ -444,3 +448,4 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_python_python_exec = '/usr/local/bin/python3'
