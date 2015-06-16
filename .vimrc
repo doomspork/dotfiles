@@ -106,6 +106,9 @@ NeoBundle 'tpope/vim-rails'
 NeoBundle 'udalov/kotlin-vim'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'whatyouhide/vim-gotham'
+NeoBundle 'elixir-lang/vim-elixir'
+NeoBundle 'avakhov/vim-yaml'
+NeoBundle 'slim-template/vim-slim'
 
 " By default NeoBundle installs a less python.vim so work around that
 NeoBundle 'http://www.vim.org/scripts/download_script.php?src_id=19619',  { 'type__filename' : 'python.vim', 'script_type' : 'syntax' }
@@ -319,6 +322,9 @@ autocmd BufWrite *.md :call DeleteTrailingWS()
 autocmd BufWrite *.php :call DeleteTrailingWS()
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.rb :call DeleteTrailingWS()
+autocmd BufWrite *.ex :call DeleteTrailingWS()
+autocmd BufWrite *.exs :call DeleteTrailingWS()
+autocmd BufWrite *.yml :call DeleteTrailingWS()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell checking
