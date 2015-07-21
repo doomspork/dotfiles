@@ -109,6 +109,7 @@ NeoBundle 'whatyouhide/vim-gotham'
 NeoBundle 'elixir-lang/vim-elixir'
 NeoBundle 'avakhov/vim-yaml'
 NeoBundle 'slim-template/vim-slim'
+NeoBundle 'docker/docker', { 'rtp': '/contrib/syntax/vim/' }
 
 " By default NeoBundle installs a less python.vim so work around that
 NeoBundle 'http://www.vim.org/scripts/download_script.php?src_id=19619',  { 'type__filename' : 'python.vim', 'script_type' : 'syntax' }
