@@ -16,6 +16,14 @@ else
   export EDITOR='mvim'
 fi
 
+# gitignore.io helper
+function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
+
+# Add missing gdt alias
+alias gdt='git difftool'
+
+alias fs='foreman start'
+
 source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
 chruby ruby-2.1
