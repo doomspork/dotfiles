@@ -6,7 +6,7 @@ plugins=(bundler capistrano chruby git osx ruby)
 
 source $ZSH/oh-my-zsh.sh
 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/heroku/bin"
+export PATH=$PATH:"/Applications/Postgres.app/Contents/Versions/latest/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/heroku/bin"
 
 export LANG=en_US.UTF-8
 
@@ -26,4 +26,8 @@ alias fs='foreman start'
 
 source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
-chruby ruby-2.1
+chruby ruby-2.3
+
+test -s "$HOME/.kiex/scripts/kiex" && source "$HOME/.kiex/scripts/kiex"
+
+export GIT_EDITOR='/usr/local/bin/mvim -g -f'
