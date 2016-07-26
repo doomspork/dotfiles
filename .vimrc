@@ -1,10 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer:
-"       Sean Callan
-"       seancallan@gmail.com
-"
-" Version:
-"       2.0 - September 20th, 2014
+"   Sean Callan
+"   seancallan@gmail.com
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -57,9 +54,10 @@ if has("gui_running")
 	set t_Co=256
 	set guitablabel=%M\ %t
 
-    if has("gui_macvim")
-        set guifont=Source\ Code\ Pro\ for\ Powerline\:h11
-    endif
+  if has("gui_macvim")
+    set macligatures
+    set guifont=Fira\ Code\ Retina:h11
+  endif
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
