@@ -2,7 +2,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
-plugins=(bundler capistrano chruby git osx ruby)
+plugins=(bundler chruby git osx ruby docker)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -28,6 +28,9 @@ source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
 chruby ruby-2.3
 
-test -s "$HOME/.kiex/scripts/kiex" && source "$HOME/.kiex/scripts/kiex"
+if [[ -s "$HOME/.kiex/scripts/kiex" ]]; then
+  source "$HOME/.kiex/scripts/kiex"
+  kiex use 1.3.2
+fi
 
 export GIT_EDITOR='/usr/local/bin/mvim -g -f'
