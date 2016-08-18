@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer:
 "   Sean Callan
-"   seancallan@gmail.com
+"   sean@seancallan.com
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -44,7 +44,7 @@ set noswapfile
 " Enable syntax highlighting
 syntax enable
 
-colorscheme base16-paraiso
+colorscheme birds-of-paradise 
 set background=dark
 
 " Set extra options when running in GUI mode
@@ -56,12 +56,14 @@ if has("gui_running")
 
   if has("gui_macvim")
     set macligatures
-    set guifont=Fira\ Code\ Retina:h11
+    set guifont=Fira\ Code\ Retina:h13
   endif
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
+
+set colorcolumn=120
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
@@ -71,53 +73,57 @@ set ffs=unix,dos,mac
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if !1 | finish | endif
 
-if has('vim_starting')
-    " Be iMproved
-    set nocompatible
-
-    " Required:
-    set runtimepath+=~/.vim/bundle/neobundle.vim/
+"dein Scripts-----------------------------
+if &compatible
+  set nocompatible               " Be iMproved
 endif
 
 " Required:
-call neobundle#begin(expand('~/.vim/bundle'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" Add or remove your Bundles here:
-NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'cakebaker/scss-syntax.vim'
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'sjl/gundo.vim'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-rails'
-NeoBundle 'udalov/kotlin-vim'
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'whatyouhide/vim-gotham'
-NeoBundle 'elixir-lang/vim-elixir'
-NeoBundle 'avakhov/vim-yaml'
-NeoBundle 'slim-template/vim-slim'
-NeoBundle 'docker/docker', { 'rtp': '/contrib/syntax/vim/' }
+set runtimepath+=/Users/sean/.vim/bundles/repos/github.com/Shougo/dein.vim
 
 " Required:
-call neobundle#end()
+if dein#load_state('/Users/sean/.vim/bundles')
+  call dein#begin('/Users/sean/.vim/bundles')
+
+  " Let dein manage dein
+  " Required:
+  call dein#add('/Users/sean/.vim/bundles/repos/github.com/Shougo/dein.vim')
+
+  call dein#add('Valloric/YouCompleteMe')
+  call dein#add('airblade/vim-gitgutter')
+  call dein#add('docker/docker', { 'rtp': '/contrib/syntax/vim/' })
+  call dein#add('elixir-lang/vim-elixir')
+  call dein#add('godlygeek/tabular')
+  call dein#add('kien/ctrlp.vim')
+  call dein#add('pangloss/vim-javascript')
+  call dein#add('rking/ag.vim')
+  call dein#add('scrooloose/syntastic')
+  call dein#add('sjl/gundo.vim')
+  call dein#add('slashmili/alchemist.vim')
+  call dein#add('tpope/vim-fugitive')
+  call dein#add('tpope/vim-rails')
+  call dein#add('vim-airline/vim-airline')
+  call dein#add('vim-ruby/vim-ruby')
+  call dein#add('whatyouhide/vim-gotham')
+  call dein#add('felixhummel/setcolors.vim')
+
+  " Required:
+  call dein#end()
+  call dein#save_state()
+endif
 
 " Required:
 filetype plugin indent on
+syntax enable
 
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
+
+"End dein Scripts-------------------------
+
+let g:airline_powerline_fonts = 1
 
 " Toggle Gundo
 nnoremap <leader>u :GundoToggle<CR>
@@ -129,7 +135,11 @@ nnoremap <leader>a :Ag
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden --ignore .git -g ""'
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+"let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden --ignore .git _build deps releases -g ""'
+
+" ConqueShell config
+let g:ConqueTerm_CloseOnEnd = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VIM UI
