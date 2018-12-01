@@ -2,7 +2,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
-plugins=(bundler chruby git osx ruby docker)
+plugins=(bundler chruby git osx docker)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -21,7 +21,7 @@ alias gdt='git difftool'
 alias fs='foreman start'
 
 function release() {
-  docker build --tag=elixir-build --build-arg ssh_prv_key="$(cat ~/.ssh/id_rsa)" --build-arg ssh_pub_key="$(cat ~/.ssh/id_rsa.pub)" --squash . 
+  docker build --no-cache --tag=elixir-build --build-arg ssh_prv_key="$(cat ~/.ssh/id_rsa)" --build-arg ssh_pub_key="$(cat ~/.ssh/id_rsa.pub)" --squash . 
   docker run -v $(pwd)/releases:/app/_build/prod/rel --env-file $1 elixir-build mix release --env=prod 
 }
 
@@ -37,8 +37,9 @@ chruby ruby-2.3
 
 if [[ -s "$HOME/.kiex/scripts/kiex" ]]; then
   source "$HOME/.kiex/scripts/kiex"
-  kiex use 1.4.4
+  kiex use 1.6.0
 fi
 
 export GIT_EDITOR='/usr/local/bin/mvim -g -f'
-eval "$(thefuck --alias)"
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
