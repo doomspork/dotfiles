@@ -44,7 +44,7 @@ set noswapfile
 " Enable syntax highlighting
 syntax enable
 
-colorscheme birds-of-paradise 
+colorscheme fromthehell
 set background=dark
 
 " Set extra options when running in GUI mode
@@ -56,7 +56,7 @@ if has("gui_running")
 
   if has("gui_macvim")
     set macligatures
-    set guifont=Fira\ Code\ Retina:h13
+    set guifont=Fura\ Code\ Retina\ Nerd\ Font\ Complete:h13
   endif
 endif
 
@@ -89,12 +89,11 @@ if dein#load_state('/Users/sean/.vim/bundles')
   " Required:
   call dein#add('/Users/sean/.vim/bundles/repos/github.com/Shougo/dein.vim')
 
-  call dein#add('Valloric/YouCompleteMe')
   call dein#add('airblade/vim-gitgutter')
   call dein#add('docker/docker', { 'rtp': '/contrib/syntax/vim/' })
   call dein#add('elixir-lang/vim-elixir')
   call dein#add('godlygeek/tabular')
-  call dein#add('kien/ctrlp.vim')
+  call dein#add('ctrlpvim/ctrlp.vim')
   call dein#add('pangloss/vim-javascript')
   call dein#add('rking/ag.vim')
   call dein#add('scrooloose/syntastic')
@@ -106,6 +105,8 @@ if dein#load_state('/Users/sean/.vim/bundles')
   call dein#add('vim-ruby/vim-ruby')
   call dein#add('whatyouhide/vim-gotham')
   call dein#add('felixhummel/setcolors.vim')
+  call dein#add('scrooloose/nerdtree')
+  call dein#add('ryanoasis/vim-devicons')
 
   " Required:
   call dein#end()
@@ -124,6 +125,12 @@ endif
 "End dein Scripts-------------------------
 
 let g:airline_powerline_fonts = 1
+"
+" Toggle relative line numbers
+:nnoremap <silent> <C-n> :set relativenumber!<CR>
+
+" Toggle NerdTree
+nnoremap <leader>n :NERDTreeToggle<CR>
 
 " Toggle Gundo
 nnoremap <leader>u :GundoToggle<CR>
@@ -217,15 +224,15 @@ nnoremap <space> za
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Tabs and indentation
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use spaces instead of tabs
-set expandtab
-
-" Be smart when using tabs
+" 1 tab == 4 spaces
+set tabstop=2       " number of visual spaces per TAB
+set softtabstop=2   " number of spaces in tab when editing
+set shiftwidth=2    " number of spaces to use for autoindent
+set expandtab       " tabs are space
+set autoindent
+set copyindent      " copy indent from the previous lin
 set smarttab
 
-" 1 tab == 4 spaces
-set shiftwidth=2
-set tabstop=2
 
 " Linebreak on 500 characters
 set lbr
@@ -461,3 +468,4 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_python_python_exec = '/usr/local/bin/python3'
+let g:syntastic_javascript_checkers=['eslint']
