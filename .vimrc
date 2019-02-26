@@ -44,7 +44,7 @@ set noswapfile
 " Enable syntax highlighting
 syntax enable
 
-colorscheme fromthehell
+colorscheme iceberg
 set background=dark
 
 " Set extra options when running in GUI mode
@@ -56,7 +56,7 @@ if has("gui_running")
 
   if has("gui_macvim")
     set macligatures
-    set guifont=Fura\ Code\ Retina\ Nerd\ Font\ Complete:h13
+    set guifont=Fira\ Code\ Retina:h13
   endif
 endif
 
@@ -67,6 +67,17 @@ set colorcolumn=120
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
+
+" " Copy to clipboard
+vnoremap  <leader>y  "+y
+nnoremap  <leader>Y  "+yg_
+nnoremap  <leader>y  "+y
+
+" " Paste from clipboard
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
