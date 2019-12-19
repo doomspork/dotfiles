@@ -9,21 +9,17 @@ source $ZSH/oh-my-zsh.sh
 export PATH=$PATH:"/Applications/Postgres.app/Contents/Versions/latest/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/heroku/bin"
 
 export LANG=en_US.UTF-8
-
-export EDITOR='mvim'
+export EDITOR='nvim'
 
 # gitignore.io helper
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
 # Add missing gdt alias
-alias gdt='git difftool'
+alias gdt='git difftool -d'
 
-alias fs='foreman start'
+alias up!='sudo docker-compose up -d'
 
-function release() {
-  docker build --no-cache --tag=elixir-build --build-arg ssh_prv_key="$(cat ~/.ssh/id_rsa)" --build-arg ssh_pub_key="$(cat ~/.ssh/id_rsa.pub)" --squash . 
-  docker run -v $(pwd)/releases:/app/_build/prod/rel --env-file $1 elixir-build mix release --env=prod 
-}
+alias ls='lsd'
 
 function docktidy() { 
   docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /etc:/etc:ro spotify/docker-gc
@@ -31,15 +27,17 @@ function docktidy() {
   docker rmi $(docker images | grep "^<none>" | awk '{print $3}')
 }
 
-source /usr/local/share/chruby/chruby.sh
-source /usr/local/share/chruby/auto.sh
-chruby ruby-2.3
+aws-profile(){
+  export AWS_PROFILE="$1"
+  export AWS_EB_PROFILE="$1"
+  aws sts get-caller-identity | \
+      jq -r --arg PROFILE "$AWS_PROFILE" '"Using AWS Account: "+ .Account + " (" + $PROFILE + ")"'
+}
 
-if [[ -s "$HOME/.kiex/scripts/kiex" ]]; then
-  source "$HOME/.kiex/scripts/kiex"
-  kiex use 1.6.0
-fi
-
-export GIT_EDITOR='/usr/local/bin/mvim -g -f'
+export GIT_EDITOR='/usr/bin/nvim'
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash

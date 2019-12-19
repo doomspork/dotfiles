@@ -44,21 +44,9 @@ set noswapfile
 " Enable syntax highlighting
 syntax enable
 
-colorscheme iceberg
+set termguicolors
+colorscheme synthwave84
 set background=dark
-
-" Set extra options when running in GUI mode
-if has("gui_running")
-	set guioptions-=T
-	set guioptions+=e
-	set t_Co=256
-	set guitablabel=%M\ %t
-
-  if has("gui_macvim")
-    set macligatures
-    set guifont=Fira\ Code\ Retina:h13
-  endif
-endif
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -84,22 +72,17 @@ vnoremap <leader>P "+P
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if !1 | finish | endif
 
-"dein Scripts-----------------------------
 if &compatible
-  set nocompatible               " Be iMproved
+  set nocompatible
 endif
+" Add the dein installation directory into runtimepath
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-" Required:
-set runtimepath+=/Users/sean/.vim/bundles/repos/github.com/Shougo/dein.vim
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/.cache/dein')
 
-" Required:
-if dein#load_state('/Users/sean/.vim/bundles')
-  call dein#begin('/Users/sean/.vim/bundles')
-
-  " Let dein manage dein
-  " Required:
-  call dein#add('/Users/sean/.vim/bundles/repos/github.com/Shougo/dein.vim')
-
+  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
+  call dein#add('Shougo/deoplete.nvim')
   call dein#add('airblade/vim-gitgutter')
   call dein#add('docker/docker', { 'rtp': '/contrib/syntax/vim/' })
   call dein#add('elixir-lang/vim-elixir')
@@ -112,19 +95,18 @@ if dein#load_state('/Users/sean/.vim/bundles')
   call dein#add('slashmili/alchemist.vim')
   call dein#add('tpope/vim-fugitive')
   call dein#add('tpope/vim-rails')
-  call dein#add('vim-airline/vim-airline')
+  call dein#add('itchyny/lightline.vim')
   call dein#add('vim-ruby/vim-ruby')
   call dein#add('whatyouhide/vim-gotham')
   call dein#add('felixhummel/setcolors.vim')
   call dein#add('scrooloose/nerdtree')
   call dein#add('ryanoasis/vim-devicons')
+  call dein#add('hashivim/vim-terraform')
 
-  " Required:
   call dein#end()
   call dein#save_state()
 endif
 
-" Required:
 filetype plugin indent on
 syntax enable
 
@@ -135,10 +117,8 @@ endif
 
 "End dein Scripts-------------------------
 
-let g:airline_powerline_fonts = 1
-"
-" Toggle relative line numbers
-:nnoremap <silent> <C-n> :set relativenumber!<CR>
+noremap <leader>f :Mix format \| e<CR>
+noremap <C-i> :IEx
 
 " Toggle NerdTree
 nnoremap <leader>n :NERDTreeToggle<CR>
@@ -154,10 +134,9 @@ let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-"let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden --ignore .git _build deps releases -g ""'
 
-" ConqueShell config
-let g:ConqueTerm_CloseOnEnd = 1
+map <leader>C :CtrlPClearCache<cr>
+"let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden --ignore .git _build deps releases -g ""'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VIM UI
@@ -258,13 +237,6 @@ set si
 " Wrap lines
 set wrap
 
-""""""""""""""""""""""""""""""
-" Search + Visual mode
-""""""""""""""""""""""""""""""
-" When in Visual mode pressing * or # searches for the current selection
-vnoremap <silent> * :call VisualSelection('f')<CR>
-vnoremap <silent> # :call VisualSelection('b')<CR>
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Movement
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -346,9 +318,10 @@ autocmd BufWrite *.md :call DeleteTrailingWS()
 autocmd BufWrite *.php :call DeleteTrailingWS()
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.rb :call DeleteTrailingWS()
-autocmd BufWrite *.ex :call DeleteTrailingWS()
-autocmd BufWrite *.exs :call DeleteTrailingWS()
 autocmd BufWrite *.yml :call DeleteTrailingWS()
+
+" Format Elixir files on save
+autocmd BufWritePost *.exs,*.ex silent :!mix format \| e%
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell checking
