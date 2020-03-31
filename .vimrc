@@ -44,22 +44,25 @@ set noswapfile
 " Enable syntax highlighting
 syntax enable
 
+set guifont=Fira\ Code\ Regular\ Nerd\ Font\ Complete\ Mono:h13
+
 set termguicolors
-colorscheme synthwave84
+colorscheme srcery 
 set background=dark
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
 
-set colorcolumn=120
+" set colorcolumn=120
+let &colorcolumn="80,".join(range(120,999),",")
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
 " " Copy to clipboard
-vnoremap  <leader>y  "+y
-nnoremap  <leader>Y  "+yg_
-nnoremap  <leader>y  "+y
+vnoremap <leader>y  "+y
+nnoremap <leader>Y  "+yg_
+nnoremap <leader>y  "+y
 
 " " Paste from clipboard
 nnoremap <leader>p "+p
@@ -93,15 +96,18 @@ if dein#load_state('~/.cache/dein')
   call dein#add('scrooloose/syntastic')
   call dein#add('sjl/gundo.vim')
   call dein#add('slashmili/alchemist.vim')
-  call dein#add('tpope/vim-fugitive')
-  call dein#add('tpope/vim-rails')
   call dein#add('itchyny/lightline.vim')
   call dein#add('vim-ruby/vim-ruby')
   call dein#add('whatyouhide/vim-gotham')
-  call dein#add('felixhummel/setcolors.vim')
   call dein#add('scrooloose/nerdtree')
   call dein#add('ryanoasis/vim-devicons')
   call dein#add('hashivim/vim-terraform')
+  call dein#add('posva/vim-vue')
+  call dein#add('alx741/vim-rustfmt')
+  call dein#add('sbdchd/neoformat')
+  call dein#add('wsdjeg/dein-ui.vim')
+  call dein#add('vim-scripts/dbext.vim')
+  call dein#add('sheerun/vim-polyglot')
 
   call dein#end()
   call dein#save_state()
@@ -115,8 +121,11 @@ if dein#check_install()
   call dein#install()
 endif
 
-"End dein Scripts-------------------------
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
+let g:deoplete#enable_at_startup = 1
+
+"End dein Scripts-------------------------
 noremap <leader>f :Mix format \| e<CR>
 noremap <C-i> :IEx
 
@@ -129,14 +138,20 @@ nnoremap <leader>u :GundoToggle<CR>
 " Open ag.vim
 nnoremap <leader>a :Ag
 
+inoremap <A-h> <Left>
+inoremap <A-j> <Down>
+inoremap <A-k> <Up>
+inoremap <A-l> <Right>
+inoremap jj <ESC>
+
 " CtrlP configuration
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+"let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden --ignore .git _build deps releases -g ""'
+let g:ctrlp_custom_ignore = '_build\|deps\|releases\|node_modules\|DS_Store\|git'
 
 map <leader>C :CtrlPClearCache<cr>
-"let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden --ignore .git _build deps releases -g ""'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VIM UI
@@ -309,7 +324,6 @@ func! DeleteTrailingWS()
   exe "normal `z"
 endfunc
 
-nnoremap <silent> <Leader>c :call DeleteTrailingWS()<CR>
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
 autocmd BufWrite *.java :call DeleteTrailingWS()
 autocmd BufWrite *.js :call DeleteTrailingWS()
@@ -320,20 +334,12 @@ autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.rb :call DeleteTrailingWS()
 autocmd BufWrite *.yml :call DeleteTrailingWS()
 
-" Format Elixir files on save
-autocmd BufWritePost *.exs,*.ex silent :!mix format \| e%
+func! MixFormat() 
+  exe "silent !mix format %"
+  exe "edit"
+endfunc
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Spell checking
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
-
-" Shortcuts using <leader>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
+autocmd BufWritePost *.ex,*.exs :call MixFormat()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Helpers
@@ -394,24 +400,25 @@ function! <SID>BufcloseCloseIt()
    endif
 endfunction
 
-function! TabCompletion()
-  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
-    return "\<C-N>"
-  else
-    return "\<Tab>"
-  endif
-endfunction
-
-:inoremap <Tab> <C-R>=TabCompletion()<CR>
-:set dictionary="/usr/local/bin/dict"
+"function! TabCompletion()
+"  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+"    return "\<C-N>"
+"  else
+"    return "\<Tab>"
+"  endif
+"endfunction
+"
+":inoremap <Tab> <C-R>=TabCompletion()<CR>
+":set dictionary="/usr/local/bin/dict"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autogroups
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup configgroup
     autocmd!
-    autocmd CursorMovedI * call TabCompletion()
+    "autocmd CursorMovedI * call TabCompletion()
     autocmd VimEnter * highlight clear SignColumn
+    autocmd BufWritePre * undojoin | Neoformat
     autocmd BufEnter *.cls setlocal filetype=java
     autocmd BufEnter *.json setlocal filetype=json
     autocmd BufEnter *.kt setlocal filetype=kotlin
