@@ -44,7 +44,7 @@ set noswapfile
 " Enable syntax highlighting
 syntax enable
 
-set guifont=Fira\ Code\ Regular\ Nerd\ Font\ Complete\ Mono:h13
+set guifont=Fira\ Code\ Regular\ Nerd\ Font\ Complete\ Mono:h16
 
 set termguicolors
 colorscheme srcery 
@@ -85,7 +85,6 @@ if dein#load_state('~/.cache/dein')
   call dein#begin('~/.cache/dein')
 
   call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
-  call dein#add('Shougo/deoplete.nvim')
   call dein#add('airblade/vim-gitgutter')
   call dein#add('docker/docker', { 'rtp': '/contrib/syntax/vim/' })
   call dein#add('elixir-lang/vim-elixir')
@@ -108,7 +107,8 @@ if dein#load_state('~/.cache/dein')
   call dein#add('wsdjeg/dein-ui.vim')
   call dein#add('vim-scripts/dbext.vim')
   call dein#add('sheerun/vim-polyglot')
-
+  call dein#add('dense-analysis/ale')
+  call dein#add('tpope/vim-endwise')
   call dein#end()
   call dein#save_state()
 endif
@@ -121,9 +121,21 @@ if dein#check_install()
   call dein#install()
 endif
 
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" Required, explicitly enable Elixir LS
+let g:ale_linters = {}
+let g:ale_linters.elixir = ['elixir-ls']
 
-let g:deoplete#enable_at_startup = 1
+" Required, tell ALE where to find Elixir LS
+let g:ale_elixir_elixir_ls_release = expand("~/projects/elixir-ls/rel")
+
+" Optional, you can disable Dialyzer with this setting
+let g:ale_elixir_elixir_ls_config = {'elixirLS': {'dialyzerEnabled': v:true}}
+
+" Optional, configure as-you-type completions
+set completeopt=menu,menuone,preview,noselect,noinsert
+let g:ale_completion_enabled = 1
+
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 "End dein Scripts-------------------------
 noremap <leader>f :Mix format \| e<CR>
@@ -458,5 +470,4 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_python_python_exec = '/usr/local/bin/python3'
 let g:syntastic_javascript_checkers=['eslint']
