@@ -38,108 +38,71 @@ set nobackup
 set nowb
 set noswapfile
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable syntax highlighting
-syntax enable
-
-set guifont=Fira\ Code\ Regular\ Nerd\ Font\ Complete\ Mono:h16
-
-set termguicolors
-colorscheme srcery 
-set background=dark
-
-" Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
-
-" set colorcolumn=120
-let &colorcolumn="80,".join(range(120,999),",")
-
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
-
-" " Copy to clipboard
-vnoremap <leader>y  "+y
-nnoremap <leader>Y  "+yg_
-nnoremap <leader>y  "+y
-
-" " Paste from clipboard
-nnoremap <leader>p "+p
-nnoremap <leader>P "+P
-vnoremap <leader>p "+p
-vnoremap <leader>P "+P
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if !1 | finish | endif
 
-if &compatible
-  set nocompatible
-endif
+set nocompatible
+
 " Add the dein installation directory into runtimepath
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state('~/.cache/dein')
-  call dein#begin('~/.cache/dein')
+call dein#begin('~/.cache/dein')
 
-  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
-  call dein#add('airblade/vim-gitgutter')
-  call dein#add('docker/docker', { 'rtp': '/contrib/syntax/vim/' })
-  call dein#add('elixir-lang/vim-elixir')
-  call dein#add('godlygeek/tabular')
-  call dein#add('ctrlpvim/ctrlp.vim')
-  call dein#add('pangloss/vim-javascript')
-  call dein#add('rking/ag.vim')
-  call dein#add('scrooloose/syntastic')
-  call dein#add('sjl/gundo.vim')
-  call dein#add('slashmili/alchemist.vim')
-  call dein#add('itchyny/lightline.vim')
-  call dein#add('vim-ruby/vim-ruby')
-  call dein#add('whatyouhide/vim-gotham')
-  call dein#add('scrooloose/nerdtree')
-  call dein#add('ryanoasis/vim-devicons')
-  call dein#add('hashivim/vim-terraform')
-  call dein#add('posva/vim-vue')
-  call dein#add('alx741/vim-rustfmt')
-  call dein#add('sbdchd/neoformat')
-  call dein#add('wsdjeg/dein-ui.vim')
-  call dein#add('vim-scripts/dbext.vim')
-  call dein#add('sheerun/vim-polyglot')
-  call dein#add('dense-analysis/ale')
-  call dein#add('tpope/vim-endwise')
-  call dein#end()
-  call dein#save_state()
-endif
+call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
+call dein#add('airblade/vim-gitgutter')
+call dein#add('docker/docker', { 'rtp': '/contrib/syntax/vim/' })
+call dein#add('elixir-lang/vim-elixir')
+call dein#add('godlygeek/tabular')
+call dein#add('ctrlpvim/ctrlp.vim')
+call dein#add('pangloss/vim-javascript')
+call dein#add('rking/ag.vim')
+call dein#add('sjl/gundo.vim')
+call dein#add('slashmili/alchemist.vim')
+call dein#add('itchyny/lightline.vim')
+call dein#add('vim-ruby/vim-ruby')
+call dein#add('whatyouhide/vim-gotham')
+call dein#add('preservim/nerdtree')
+call dein#add('ryanoasis/vim-devicons')
+call dein#add('hashivim/vim-terraform')
+call dein#add('posva/vim-vue')
+call dein#add('alx741/vim-rustfmt')
+call dein#add('sbdchd/neoformat')
+call dein#add('wsdjeg/dein-ui.vim')
+call dein#add('vim-scripts/dbext.vim')
+call dein#add('sheerun/vim-polyglot')
+call dein#add('tpope/vim-endwise')
+call dein#add('neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'})
+call dein#add('Xuyuanp/nerdtree-git-plugin')
+call dein#add('andrejlevkovitch/vim-lua-format')
+call dein#add('nvim-lua/plenary.nvim')
+call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.0' })
+call dein#add('nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'})
+call dein#add('rebelot/kanagawa.nvim')
+call dein#add('rose-pine/neovim')
+
+call dein#end()
 
 filetype plugin indent on
 syntax enable
+let g:NERDTreeNodeDelimiter = "\u00a0"
+set encoding=UTF-8
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()
   call dein#install()
 endif
 
-" Required, explicitly enable Elixir LS
-let g:ale_linters = {}
-let g:ale_linters.elixir = ['elixir-ls']
-
-" Required, tell ALE where to find Elixir LS
-let g:ale_elixir_elixir_ls_release = expand("~/projects/elixir-ls/rel")
-
-" Optional, you can disable Dialyzer with this setting
-let g:ale_elixir_elixir_ls_config = {'elixirLS': {'dialyzerEnabled': v:true}}
-
-" Optional, configure as-you-type completions
-set completeopt=menu,menuone,preview,noselect,noinsert
-let g:ale_completion_enabled = 1
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
-"End dein Scripts-------------------------
-noremap <leader>f :Mix format \| e<CR>
-noremap <C-i> :IEx
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+noremap <C-i> :IEx<CR>
 
 " Toggle NerdTree
 nnoremap <leader>n :NERDTreeToggle<CR>
@@ -164,6 +127,44 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_custom_ignore = '_build\|deps\|releases\|node_modules\|DS_Store\|git'
 
 map <leader>C :CtrlPClearCache<cr>
+
+" Telescope Using Lua functions
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable syntax highlighting
+syntax enable
+
+set guifont=FiraCode\ Nerd\ Font\ Mono\ Regular:h16
+
+set termguicolors
+colorscheme kanagawa
+set background=dark
+
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
+" set colorcolumn=120
+let &colorcolumn="80,".join(range(120,999),",")
+
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+
+" " Copy to clipboard
+vnoremap <leader>c  "+y
+nnoremap <leader>C  "+yg_
+nnoremap <leader>c  "+y
+
+" " Paste from clipboard
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VIM UI
@@ -285,7 +286,6 @@ map <leader>bd :Bclose<cr>
 
 " Close all the buffers
 map <leader>ba :1,1000 bd!<cr>
-
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
@@ -345,6 +345,9 @@ autocmd BufWrite *.php :call DeleteTrailingWS()
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.rb :call DeleteTrailingWS()
 autocmd BufWrite *.yml :call DeleteTrailingWS()
+
+autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
+autocmd BufWrite *.lua call LuaFormat()
 
 func! MixFormat() 
   exe "silent !mix format %"
@@ -458,16 +461,3 @@ augroup configgroup
     autocmd FileType ruby setlocal tabstop=2
     autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
 augroup END
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Syntastic
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers=['eslint']
