@@ -1,3 +1,4 @@
-!lua/*.lua
+!/**/*.lua
 !.vimrc
 !.zshrc
+.DS_Store
