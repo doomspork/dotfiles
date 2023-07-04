@@ -1,4 +1,5 @@
 *
-!/**/*.lua
+!*.lua
 !.vimrc
 !.zshrc
+!setup.sh
