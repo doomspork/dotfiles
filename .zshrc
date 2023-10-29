@@ -20,6 +20,10 @@ else
   export EDITOR='nvim'
 fi
 
+alias df='cd ~/Projects/dotfiles; nvim README.md'
+alias grbiaa='git rebase --interactive --autostash --autosquash'
 alias ls='lsd --blocks permission,user,size,date,name'
+alias mc='mix compile'
+alias mt='mix test'
 
 eval "$(/opt/homebrew/bin/rtx activate zsh)"

@@ -1,8 +1,16 @@
 #!/bin/bash
 CWD=$(pwd -P)
 
-ln -Fs ${CWD}/nvim/plugins/user.lua ~/.config/nvim/lua/plugins/user.lua 
-ln -Fs ${CWD}/nvim/user ~/.config/nvim/lua/user
+mv ~/.zshrc ~/.zshrc.bak
+
+rm -f ~/.config/nvim/lua/plugins/user.lua 
+rm -rf ~/.config/nvim/lua/user
+
+ln -fs ${cwd}/nvim/plugins/user.lua ~/.config/nvim/lua/plugins/user.lua 
+ln -Fs ${CWD}/nvim/user ~/.config/nvim/lua
 ln -Fs ${CWD}/.zshrc ~/.zshrc
 
-git clone --depth 1 https://github.com/utensils/colors.vim ~/.config/nvim/colors
+git clone --depth 1 https://github.com/utensils/colors.vim
+
+rm -rf ~/.config/nvim/colors
+ln -Fs ${CWD}/colors.vim ~/.config/nvim/colors
